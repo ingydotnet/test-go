@@ -18,8 +18,9 @@ GOPATH :=
 ifneq (,$(wildcard $(YS_REPO_CLONE)))
   export GOROOT := $(shell $(MAKE) --no-print-directory -C $(YS_REPO_CLONE)/go print-goroot)
   export GOBIN := $(GOROOT)/bin
-  export GOPATH := $(ROOT)/go-path
+  export GOPATH := /tmp/yamlscript
   export PATH := $(GOBIN):$(PATH)
+  export LD_LIBRARY_PATH := $(LD_LIBRARY_PATH):/tmp/yamlscript-repo/libyamlscript/lib
   GO_PSEUDO_VERSION := $(shell $(MAKE) --no-print-directory -C $(YS_REPO_CLONE)/go pseudo-version)
 endif
 

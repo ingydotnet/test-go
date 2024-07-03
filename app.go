@@ -1,16 +1,16 @@
 package main
 
 import (
-	"github.com/yaml/yamlscript/go"
 	"fmt"
+	"github.com/yaml/yamlscript/go"
 )
 
 func main() {
-    data, err := yamlscript.Load("a: [b, c]")
+	data, err := yamlscript.Load("a: [b, c]")
 
-    if err != nil {
-        return;
-    }
+	if err != nil {
+		return
+	}
 
-    fmt.Println(data)
+	fmt.Println(data)
 }
