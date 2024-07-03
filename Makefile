@@ -42,7 +42,7 @@ vars:
 
 setup: $(YS_REPO_CLONE)
 
-test: check-setup $(YS_INSTALLED) go-mod go-get go-test go-tidy go-mod-reset
+test: check-setup $(YS_INSTALLED) go-mod go-get go-test go-build go-run go-tidy go-mod-reset
 
 go-mod: go.mod
 	@echo === $@
@@ -61,15 +61,17 @@ go-tidy:
 	@echo === $@
 	go mod tidy
 
-go-mod-reset: go.mod
-	@echo === $@
-	git checkout -- $<
-
 go-build: go-mod go-get
+	@echo === $@
 	go build -o app app.go
 
 go-run: go-mod go-get
+	@echo === $@
 	go run app.go
+
+go-mod-reset: go.mod
+	@echo === $@
+	git checkout -- $<
 
 check-setup:
 	@echo === $@
