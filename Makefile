@@ -2,6 +2,7 @@ SHELL := bash
 
 ROOT := $(shell pwd)
 
+YS_GO_PATH := /tmp/go-path
 YS_REPO_CLONE := /tmp/yamlscript-repo
 YS_REPO_URL := https://github.com/yaml/yamlscript
 YS_REPO_BRANCH := go-binding
@@ -19,7 +20,7 @@ GOPATH :=
 ifneq (,$(wildcard $(YS_REPO_CLONE)))
   export GOROOT := $(shell $(MAKE) --no-print-directory -C $(YS_REPO_CLONE)/go print-goroot)
   export GOBIN := $(GOROOT)/bin
-  export GOPATH := $(ROOT)/go-path
+  export GOPATH := $(YS_GO_PATH)
   export PATH := $(GOBIN):$(PATH)
   export LD_LIBRARY_PATH := $(YS_INSTALL_LIB):$(LD_LIBRARY_PATH)
   GO_PSEUDO_VERSION := $(shell $(MAKE) --no-print-directory -C $(YS_REPO_CLONE)/go pseudo-version)
@@ -78,8 +79,8 @@ endif
 
 clean:
 	[[ ! -d $(GO_DEPS) ]] || chmod -R u+w $(GO_DEPS)
-	[[ ! -d go-path ]] || chmod -R u+w go-path
-	$(RM) -r $(GO_DEPS) go-path
+	[[ ! -d $(YS_GO_PATH) ]] || chmod -R u+w $(YS_GO_PATH)
+	$(RM) -r $(GO_DEPS) $(YS_GO_PATH)
 	$(RM) app
 
 sysclean: clean
