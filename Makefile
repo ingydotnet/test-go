@@ -6,7 +6,8 @@ YS_REPO_CLONE := /tmp/yamlscript-repo
 YS_REPO_URL := https://github.com/yaml/yamlscript
 YS_REPO_BRANCH := go-binding
 YS_INSTALL_PREFIX := /tmp/ys-local
-YS_INSTALLED := $(YS_INSTALL_PREFIX)/lib/libyamlscript.so
+YS_INSTALL_LIB := $(YS_INSTALL_PREFIX)/lib
+YS_INSTALLED := $(YS_INSTALL_LIB)/libyamlscript.so
 
 GO_DEPS := go-deps
 
@@ -18,9 +19,9 @@ GOPATH :=
 ifneq (,$(wildcard $(YS_REPO_CLONE)))
   export GOROOT := $(shell $(MAKE) --no-print-directory -C $(YS_REPO_CLONE)/go print-goroot)
   export GOBIN := $(GOROOT)/bin
-  export GOPATH := /tmp/yamlscript
+  export GOPATH := $(ROOT)/go-path
   export PATH := $(GOBIN):$(PATH)
-  export LD_LIBRARY_PATH := $(LD_LIBRARY_PATH):/tmp/yamlscript-repo/libyamlscript/lib
+  export LD_LIBRARY_PATH := $(YS_INSTALL_LIB):$(LD_LIBRARY_PATH)
   GO_PSEUDO_VERSION := $(shell $(MAKE) --no-print-directory -C $(YS_REPO_CLONE)/go pseudo-version)
 endif
 
