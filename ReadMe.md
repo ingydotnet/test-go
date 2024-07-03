@@ -26,4 +26,5 @@ All Go commands must be in the Makefile:
 * `make go-get` - Works
 * `make go-test` - Works but no `app_test.go` yet
 * `make go-tidy` - Works
-* `make go-build` - This one fails currently
+* `make go-build` - Works
+* `make go-run` - Fails for not finding libyamlscript.so

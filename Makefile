@@ -62,9 +62,11 @@ go-mod-reset: go.mod
 	@echo === $@
 	git checkout -- $<
 
-go-build:
-	@echo === $@
-	go build
+go-build: go-mod go-get
+	go build -o app app.go
+
+go-run: go-mod go-get
+	go run app.go
 
 check-setup:
 	@echo === $@
@@ -76,6 +78,7 @@ clean:
 	[[ ! -d $(GO_DEPS) ]] || chmod -R u+w $(GO_DEPS)
 	[[ ! -d go-path ]] || chmod -R u+w go-path
 	$(RM) -r $(GO_DEPS) go-path
+	$(RM) app
 
 sysclean: clean
 	$(RM) -r $(YS_REPO_CLONE) $(GOROOT) $(YS_INSTALL_PREFIX)
