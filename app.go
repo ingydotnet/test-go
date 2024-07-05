@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/yaml/yamlscript/go"
+	"github.com/yaml/yamlscript-go"
 )
 
 func main() {

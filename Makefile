@@ -2,6 +2,8 @@ SHELL := bash
 
 ROOT := $(shell pwd)
 
+YS_VERSION := v0.1.63
+
 YS_GO_PATH := /tmp/go-path
 YS_REPO_CLONE := /tmp/yamlscript-repo
 YS_REPO_URL := https://github.com/yaml/yamlscript
@@ -23,7 +25,6 @@ ifneq (,$(wildcard $(YS_REPO_CLONE)))
   export GOPATH := $(YS_GO_PATH)
   export PATH := $(GOBIN):$(PATH)
   export LD_LIBRARY_PATH := $(YS_INSTALL_LIB):$(LD_LIBRARY_PATH)
-  GO_PSEUDO_VERSION := $(shell $(MAKE) --no-print-directory -C $(YS_REPO_CLONE)/go pseudo-version)
 endif
 
 export CGO_CFLAGS := -I $(YS_INSTALL_PREFIX)/include
@@ -36,22 +37,16 @@ vars:
 	@echo GOROOT=$(GOROOT)
 	@echo GOPATH=$(GOPATH)
 	@echo GOBIN=$(GOBIN)
-	@echo GO_PSEUDO_VERSION=$(GO_PSEUDO_VERSION)
 	@echo
 	@echo PATH=$(PATH)
 
 setup: $(YS_REPO_CLONE)
 
-test: check-setup $(YS_INSTALLED) go-mod go-get go-test go-build go-run go-tidy go-mod-reset
-
-go-mod: go.mod
-	@echo === $@
-	git checkout -- $<
-	perl -pi -e "s/v0.*/$(GO_PSEUDO_VERSION)/" $<
+test: check-setup $(YS_INSTALLED) go-get go-test go-build go-run go-tidy
 
 go-get:
 	@echo === $@
-	go get github.com/yaml/yamlscript/go@$(GO_PSEUDO_VERSION)
+	go get github.com/yaml/yamlscript-go@$(YS_VERSION)
 
 go-test:
 	@echo === $@
@@ -61,21 +56,17 @@ go-tidy:
 	@echo === $@
 	go mod tidy
 
-go-build: go-mod go-get
+go-build: go-get
 	@echo === $@
 	go build -o app app.go
 
-go-run: go-mod go-get $(YS_INSTALLED)
+go-run: go-get $(YS_INSTALLED)
 	@echo === $@
 	go run app.go
 
-go-mod-reset: go.mod
-	@echo === $@
-	git checkout -- $<
-
 check-setup:
 	@echo === $@
-ifndef GO_PSEUDO_VERSION
+ifeq (,$(GOPATH))
 	$(error Run: make setup)
 endif
 
