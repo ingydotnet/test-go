@@ -18,7 +18,7 @@ GOBIN :=
 GOPATH :=
 
 ifneq (,$(wildcard $(YS_REPO_CLONE)))
-  export GOROOT := $(shell $(MAKE) --no-print-directory -C $(YS_REPO_CLONE)/go print-goroot)
+  export GOROOT := $(shell $(MAKE) --no-print-directory -C $(YS_REPO_CLONE)/go print-goroot | tail -n1)
   export GOBIN := $(GOROOT)/bin
   export GOPATH := $(YS_GO_PATH)
   export PATH := $(GOBIN):$(PATH)
@@ -65,7 +65,7 @@ go-build: go-mod go-get
 	@echo === $@
 	go build -o app app.go
 
-go-run: go-mod go-get
+go-run: go-mod go-get $(YS_INSTALLED)
 	@echo === $@
 	go run app.go
 
