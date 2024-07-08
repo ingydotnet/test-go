@@ -2,12 +2,12 @@ SHELL := bash
 
 ROOT := $(shell pwd)
 
-YS_VERSION := v0.1.63
+YS_VERSION := v0.1.65
 
 YS_GO_PATH := /tmp/go-path
 YS_REPO_CLONE := /tmp/yamlscript-repo
 YS_REPO_URL := https://github.com/yaml/yamlscript
-YS_REPO_BRANCH := go-binding
+YS_REPO_BRANCH := main
 YS_INSTALL_PREFIX := /tmp/ys-local
 YS_INSTALL_LIB := $(YS_INSTALL_PREFIX)/lib
 YS_INSTALLED := $(YS_INSTALL_LIB)/libyamlscript.so
